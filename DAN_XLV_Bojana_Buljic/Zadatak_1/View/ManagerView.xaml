@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Zadatak_1.View"
         mc:Ignorable="d"
-        Title="ManagerView" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+        Title="Manager"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -52,7 +54,7 @@
                     <DataGridTextColumn Header="Product Code"
                                         Binding="{Binding ProductCode}" />
                     <DataGridTextColumn Header="Quantity(per peice)"
-                                        Binding="{Binding Quantity}"/>
+                                        Binding="{Binding Quantity}" />
                     <DataGridTextColumn Header="Price(in RSD)"
                                         Binding="{Binding Price}" />
                     <DataGridTextColumn Header="Stored"
@@ -65,21 +67,24 @@
                                         Width="50"
                                         Height="20"
                                         Command="{Binding Path=DataContext.Delete, RelativeSource= {RelativeSource FindAncestor,
-                                       AncestorType={x:Type DataGrid}},UpdateSourceTrigger=PropertyChanged}"/>
+                                       AncestorType={x:Type DataGrid}},UpdateSourceTrigger=PropertyChanged}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </Grid>        
+        </Grid>
         <Button Content="Edit Product"
                 Name="btnEdit"
                 Grid.Column="3"
-                HorizontalAlignment="Left"                
+                HorizontalAlignment="Left"
                 Command="{Binding EditCommand, UpdateSourceTrigger=PropertyChanged}"
-                Grid.Row="5"
+                Grid.Row="3"
+                Margin="0,29,0,1"
                 VerticalAlignment="Center"
-                Width="75"/>
+                Width="75"
+                RenderTransformOrigin="0.52,2.4"
+                Grid.RowSpan="2" />
         <Button Content="Add Product"
                 Name="btnAdd"
                 Grid.Column="3"
@@ -92,10 +97,10 @@
                 Name="btnLogOut"
                 Grid.Column="3"
                 IsEnabled="True"
-                HorizontalAlignment="Left"                
+                HorizontalAlignment="Left"
                 Grid.Row="1"
                 Command="{Binding LogOut}"
                 VerticalAlignment="Center"
-                Width="75"/>
+                Width="75" />
     </Grid>
 </Window>

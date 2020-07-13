@@ -91,6 +91,7 @@ namespace Zadatak_1.ViewModel
                 {
                     if (Product != null)
                     {
+                        
                         int productId = Product.ID;
                         if (Product.Stored == "yes")
                         {
@@ -98,8 +99,10 @@ namespace Zadatak_1.ViewModel
                         }
                         else
                         {
+                            service.Notify("Product " + Product.ProductName + " with code:" + Product.ProductCode + " removed from database");
                             service.DeleteProduct(productId);
-                            MessageBox.Show("Product " + Product.ProductName + " with code:" + Product.ProductCode + " removed from database");
+                            //MessageBox.Show("Product " + Product.ProductName + " with code:" + Product.ProductCode + " removed from database");
+
                         }
                         using (WarehouseDBEntities context = new WarehouseDBEntities())
                         {
@@ -159,6 +162,8 @@ namespace Zadatak_1.ViewModel
                 if((addView.DataContext as AddEditProductViewModel).IsUpdateProduct==true)
                 {
                     ProductList = service.GetAllProducts().ToList();
+                    service.Notify("Added is product " + Product.ProductName + " with code: " + Product.ProductCode + "price of " + Product.Price
+                        +" RSD in amount of " + Product.Quantity+" pieces.");
                 }
 
             }
@@ -204,7 +209,13 @@ namespace Zadatak_1.ViewModel
                 {
                     AddEditProduct editProduct = new AddEditProduct(Product);
                     editProduct.ShowDialog();
-                    ProductList = service.GetAllProducts().ToList();                    
+                    string updateMessage = "Product " + Product.ProductName + " with code: " + Product.ProductCode + " is updated.";
+                    ProductList = service.GetAllProducts().ToList();   
+                    
+                    if((editProduct.DataContext as AddEditProductViewModel).IsUpdateProduct==true)
+                    {
+                        service.Notify(updateMessage);
+                    }
                 }
             }
             catch (Exception ex)

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Zadatak_1.Model;
 
@@ -10,6 +8,32 @@ namespace Zadatak_1.Services
 {
     class Service
     {
+        Logger logger = new Logger();
+
+        #region Event logger
+        /// <summary>
+        /// Delegate for sending notifications depending on the parameter value.
+        /// </summary>
+        /// <param name="text">text that is being printed into the file</param>
+        public delegate void Notification(string text);
+        /// <summary>
+        /// Event that gets triggered when a text is given
+        /// </summary>
+        public event Notification OnNotification;
+
+        /// <summary>
+        /// Checks if there is any given value to trigger the event
+        /// </summary>
+        /// <param name="text">Parameter given to notify</param>
+        internal void Notify(string text)
+        {
+            if (OnNotification != null)
+            {
+                OnNotification(text);
+            }
+        }
+        #endregion
+
         /// <summary>
         /// Method gets all products from database
         /// </summary>
@@ -22,6 +46,7 @@ namespace Zadatak_1.Services
                 {
                     List<tblProduct> products= new List<tblProduct>();
                     products = (from x in context.tblProducts select x).ToList();
+                    OnNotification = logger.WriteToFile;
                     return products;
                 }
             }
