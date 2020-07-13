@@ -66,12 +66,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Product.cs" />
+    <Compile Include="Services\Logger.cs" />
     <Compile Include="Services\Service.cs" />
     <Compile Include="Model\tblProduct.cs">
       <DependentUpon>WarehouseDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Validations\ValidationClass.cs" />
     <Compile Include="ViewModel\AddEditProductViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\LogInViewModel.cs" />
     <Compile Include="ViewModel\ManagerViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />

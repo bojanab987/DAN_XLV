@@ -99,10 +99,10 @@ namespace Zadatak_1.ViewModel
                         }
                         else
                         {
-                            service.Notify("Product " + Product.ProductName + " with code:" + Product.ProductCode + " removed from database");
+                            
                             service.DeleteProduct(productId);
                             //MessageBox.Show("Product " + Product.ProductName + " with code:" + Product.ProductCode + " removed from database");
-
+                            service.Notify("Product " + Product.ProductName + " with code:" + Product.ProductCode + " removed from database");
                         }
                         using (WarehouseDBEntities context = new WarehouseDBEntities())
                         {

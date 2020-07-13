@@ -15,7 +15,7 @@ namespace Zadatak_1.Services
         /// Delegate for sending notifications depending on the parameter value.
         /// </summary>
         /// <param name="text">text that is being printed into the file</param>
-        public delegate void Notification(string text);
+        public delegate void Notification(string text);        
         /// <summary>
         /// Event that gets triggered when a text is given
         /// </summary>
@@ -30,6 +30,16 @@ namespace Zadatak_1.Services
             if (OnNotification != null)
             {
                 OnNotification(text);
+            }
+        }
+
+        public delegate void NotificationEmp(object obj);
+        public event NotificationEmp OnNotificationEmp;
+        internal void NotifyEmployee(object obj)
+        {
+            if (OnNotificationEmp != null)
+            {
+                OnNotificationEmp(obj);
             }
         }
         #endregion
@@ -129,10 +139,62 @@ namespace Zadatak_1.Services
                 System.Diagnostics.Debug.WriteLine("Exception: " + ex.Message.ToString());
                 return null;
             }
-        }
+        }  
         
+        /// <summary>
+        /// Method to get all stored products from table
+        /// </summary>
+        /// <returns>list of stored products</returns>
+        public List<tblProduct> GetStoredProducts()
+        {
+            try
+            {
+                using (WarehouseDBEntities context = new WarehouseDBEntities())
+                {
+                    List<tblProduct> stored = new List<tblProduct>();
+                    stored = (from x in context.tblProducts where x.Stored == "yes" select x).ToList();
+                    return stored;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
 
-        //store product
+        /// <summary>
+        /// Method for change of product Stored status
+        /// </summary>
+        /// <param name="product">product for storing</param>
+        public void StoreProduct(tblProduct product)
+        {
+            try
+            {
+                using (WarehouseDBEntities context = new WarehouseDBEntities())
+                {
+                    tblProduct productToStore = (from x in context.tblProducts where x.ID == product.ID select x).First();
+                    List<tblProduct> storedList = GetStoredProducts();
+                    int counter = 0;
+                    foreach (var item in storedList)
+                    {
+                        counter += item.Quantity;
+                    }
 
+                    //check quantity if its less than 100 it can be stored
+                    if(productToStore.Stored=="no" && (counter+productToStore.Quantity<=100))
+                    {
+                        //change status to yes
+                        productToStore.Stored = "yes";
+                        context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+
+        }
     }
 }
