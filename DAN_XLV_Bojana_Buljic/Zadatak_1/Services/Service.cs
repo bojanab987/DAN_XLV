@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Zadatak_1.Model;
 
 namespace Zadatak_1.Services
 {

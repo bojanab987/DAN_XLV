@@ -6,6 +6,7 @@ using Zadatak_1.Services;
 using System.Windows;
 using System.Windows.Input;
 using Zadatak_1.Command;
+using Zadatak_1.Model;
 
 namespace Zadatak_1.ViewModel
 {
@@ -18,7 +19,7 @@ namespace Zadatak_1.ViewModel
         {
             managerView = managerOpen;
             service = new Service();
-            ProductList = service.GetAllProducts();
+            ProductList = service.GetAllProducts().ToList();
         }
 
         #region Properties
@@ -98,7 +99,7 @@ namespace Zadatak_1.ViewModel
                         else
                         {
                             service.DeleteProduct(productId);
-                            MessageBox.Show("Product " + Product.ProductName + "with code:" + Product.ProductCode + " removed from database");
+                            MessageBox.Show("Product " + Product.ProductName + " with code:" + Product.ProductCode + " removed from database");
                         }
                         using (WarehouseDBEntities context = new WarehouseDBEntities())
                         {
@@ -157,7 +158,7 @@ namespace Zadatak_1.ViewModel
                 addView.ShowDialog();
                 if((addView.DataContext as AddEditProductViewModel).IsUpdateProduct==true)
                 {
-                    ProductList = service.GetAllProducts();
+                    ProductList = service.GetAllProducts().ToList();
                 }
 
             }

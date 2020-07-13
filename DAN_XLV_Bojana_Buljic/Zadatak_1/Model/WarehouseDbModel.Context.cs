@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Zadatak_1
+namespace Zadatak_1.Model
 {
     using System;
     using System.Data.Entity;

@@ -5,8 +5,97 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Zadatak_1.View"
         mc:Ignorable="d"
-        Title="ManagerView" Height="450" Width="800">
+        Title="ManagerView" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="1"
+              Grid.Row="1"
+              Height="auto"
+              Width="auto">
+            <DataGrid Name="DataGridProducts"
+                      ItemsSource="{Binding ProductList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding Product,UpdateSourceTrigger=PropertyChanged}"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column"
+                      AutoGenerateColumns="False"
+                      Visibility="{Binding ProductView, UpdateSourceTrigger=PropertyChanged}"
+                      HorizontalGridLinesBrush="Black"
+                      BorderBrush="Black"
+                      Foreground="Black"
+                      FontWeight="Bold">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Product Name"
+                                        Binding="{Binding ProductName}" />
+                    <DataGridTextColumn Header="Product Code"
+                                        Binding="{Binding ProductCode}" />
+                    <DataGridTextColumn Header="Quantity(per peice)"
+                                        Binding="{Binding Quantity}"/>
+                    <DataGridTextColumn Header="Price(in RSD)"
+                                        Binding="{Binding Price}" />
+                    <DataGridTextColumn Header="Stored"
+                                        Binding="{Binding Stored}" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="✖"
+                                        Name="btnDelete"
+                                        Width="50"
+                                        Height="20"
+                                        Command="{Binding Path=DataContext.Delete, RelativeSource= {RelativeSource FindAncestor,
+                                       AncestorType={x:Type DataGrid}},UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>        
+        <Button Content="Edit Product"
+                Name="btnEdit"
+                Grid.Column="3"
+                HorizontalAlignment="Left"                
+                Command="{Binding EditCommand, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Row="5"
+                VerticalAlignment="Center"
+                Width="75"/>
+        <Button Content="Add Product"
+                Name="btnAdd"
+                Grid.Column="3"
+                HorizontalAlignment="Left"
+                Command="{Binding AddCommand, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Row="3"
+                VerticalAlignment="Center"
+                Width="75" />
+        <Button Content="Log out"
+                Name="btnLogOut"
+                Grid.Column="3"
+                IsEnabled="True"
+                HorizontalAlignment="Left"                
+                Grid.Row="1"
+                Command="{Binding LogOut}"
+                VerticalAlignment="Center"
+                Width="75"/>
     </Grid>
 </Window>

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Zadatak_1
+namespace Zadatak_1.Model
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Zadatak_1
         public int ID { get; set; }
         public string ProductName { get; set; }
         public string ProductCode { get; set; }
-        public Nullable<int> Quantity { get; set; }
+        public int Quantity { get; set; }
         public int Price { get; set; }
         public string Stored { get; set; }
     }
