@@ -96,13 +96,14 @@ namespace Zadatak_1.ViewModel
                         if (Product.Stored == "yes")
                         {
                             MessageBox.Show("Product is stored and cannot be deleted from database.");
+                            service.Notify("Could not delete Product: " + Product.ProductName + " with code: " + Product.ProductCode + " since its stored.");
                         }
                         else
                         {
                             
                             service.DeleteProduct(productId);
-                            //MessageBox.Show("Product " + Product.ProductName + " with code:" + Product.ProductCode + " removed from database");
-                            service.Notify("Product " + Product.ProductName + " with code:" + Product.ProductCode + " removed from database");
+                            MessageBox.Show("Product " + Product.ProductName + " with code:" + Product.ProductCode + " removed from database.");
+                            service.Notify("Product " + Product.ProductName + " with code:" + Product.ProductCode + " removed from database.");
                         }
                         using (WarehouseDBEntities context = new WarehouseDBEntities())
                         {
@@ -161,9 +162,7 @@ namespace Zadatak_1.ViewModel
                 addView.ShowDialog();
                 if((addView.DataContext as AddEditProductViewModel).IsUpdateProduct==true)
                 {
-                    ProductList = service.GetAllProducts().ToList();
-                    service.Notify("Added is product " + Product.ProductName + " with code: " + Product.ProductCode + "price of " + Product.Price
-                        +" RSD in amount of " + Product.Quantity+" pieces.");
+                    ProductList = service.GetAllProducts().ToList();  
                 }
 
             }
@@ -208,13 +207,11 @@ namespace Zadatak_1.ViewModel
                 if (Product != null)
                 {
                     AddEditProduct editProduct = new AddEditProduct(Product);
-                    editProduct.ShowDialog();
-                    string updateMessage = "Product " + Product.ProductName + " with code: " + Product.ProductCode + " is updated.";
-                    ProductList = service.GetAllProducts().ToList();   
+                    editProduct.ShowDialog(); 
                     
                     if((editProduct.DataContext as AddEditProductViewModel).IsUpdateProduct==true)
                     {
-                        service.Notify(updateMessage);
+                        ProductList = service.GetAllProducts().ToList();
                     }
                 }
             }
@@ -230,7 +227,10 @@ namespace Zadatak_1.ViewModel
         /// <returns>true if possible</returns>
         public bool CanEditCommandExecute()
         {
-            return true;
+            if (Product == null)
+                return false;
+            else
+                return true;
         }
 
 

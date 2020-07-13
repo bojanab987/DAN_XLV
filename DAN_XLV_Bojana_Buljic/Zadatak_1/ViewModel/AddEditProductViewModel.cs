@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -111,14 +110,32 @@ namespace Zadatak_1.ViewModel
         {
             try
             {
-                service.AddEditProduct(Product);
-                IsUpdateProduct = true;
-                //closing the addEditProduct view
-                addView.Close();
+
+                tblProduct product=service.AddEditProduct(Product);
+                if (product != null)
+                {
+                    if (Service.action == "added")
+                    {
+                        service.Notify("Added is product " + Product.ProductName + " with code: " + Product.ProductCode + "price of " + Product.Price
+                        + " RSD in amount of " + Product.Quantity + " pieces.");
+                        MessageBox.Show("Succcessfully addded product!\nProduct name:" + Product.ProductName + "\nCode: " + Product.ProductCode + "\nPrice: " + Product.Price
+                        + " RSD\n Quantity:" + Product.Quantity + " pieces.");
+                    }
+                    else if (Service.action == "edited")
+                    {
+                        service.Notify("Product " + Product.ProductName + " with code: " + Product.ProductCode + " is updated.");
+                        MessageBox.Show("Succcessfully updated product!\nProduct name:" + Product.ProductName + "\nCode: " + Product.ProductCode + "\nPrice: " + Product.Price
+                        + " RSD\n Quantity:" + Product.Quantity + " pieces.");
+                    }
+                    IsUpdateProduct = true;
+                    //closing the addEditProduct view
+                    addView.Close();
+                }                
+                
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Exception" + ex.Message.ToString());
+                MessageBox.Show(ex.ToString());
             }
         }
 

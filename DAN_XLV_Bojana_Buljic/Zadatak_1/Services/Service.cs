@@ -8,9 +8,16 @@ namespace Zadatak_1.Services
 {
     class Service
     {
+        public Service()
+        {
+            //events to notify
+            OnNotification = logger.WriteToFile;
+            OnNotificationEmp = messageTouser.ShowMessageToUser;
+        }
         Logger logger = new Logger();
+        ShowMessage messageTouser = new ShowMessage();
 
-        #region Event logger
+        #region EventandDelegate logger
         /// <summary>
         /// Delegate for sending notifications depending on the parameter value.
         /// </summary>
@@ -32,18 +39,39 @@ namespace Zadatak_1.Services
                 OnNotification(text);
             }
         }
+        #endregion
 
-        public delegate void NotificationEmp(object obj);
+        #region EventandDelegate ShowMessage
+        /// <summary>
+        /// Delegate for sending notification to user
+        /// </summary>
+        /// <param name="text"></param>
+        public delegate void NotificationEmp(string text);
+
+        /// <summary>
+        /// event for informing user of change
+        /// </summary>
         public event NotificationEmp OnNotificationEmp;
-        internal void NotifyEmployee(object obj)
+
+        /// <summary>
+        /// Raise an event for notify user about storing products
+        /// </summary>
+        /// <param name="text"></param>
+        internal void NotifyEmployee(string text)
         {
             if (OnNotificationEmp != null)
             {
-                OnNotificationEmp(obj);
+                OnNotificationEmp(text);
             }
         }
         #endregion
 
+        /// <summary>
+        /// check which action is taken
+        /// </summary>
+        public static string action;
+
+        #region Methods
         /// <summary>
         /// Method gets all products from database
         /// </summary>
@@ -118,6 +146,7 @@ namespace Zadatak_1.Services
                         context.tblProducts.Add(newProduct);
                         context.SaveChanges();
                         product.ID = newProduct.ID;
+                        action = "added";
                         return product;
                     }
                     else
@@ -129,6 +158,7 @@ namespace Zadatak_1.Services
                         productForEdit.Price = product.Price;
                         productForEdit.Stored = product.Stored;
                         context.SaveChanges();
+                        action = "edited";
                         return product;
                     }
                 }
@@ -196,5 +226,6 @@ namespace Zadatak_1.Services
             }
 
         }
+        #endregion
     }
 }

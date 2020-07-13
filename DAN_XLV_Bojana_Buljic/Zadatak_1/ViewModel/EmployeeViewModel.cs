@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Zadatak_1.Command;
@@ -92,19 +90,19 @@ namespace Zadatak_1.ViewModel
                     int productId = Product.ID;
                     if (Product.Quantity>100)
                     {
-                        service.NotifyEmployee(MessageBox.Show("Can not be stored more than 100 pieces of " + Product.ProductName + ", product with code:" + Product.ProductCode + "."));
+                        service.NotifyEmployee("Can not be stored more than 100 pieces of " + Product.ProductName + ", product with code:" + Product.ProductCode + ".");
                         
                     }
                     else if(Product.Stored=="yes")
                     {
-                        service.NotifyEmployee(MessageBox.Show("Product already stored cannot be stored again."));
+                        service.NotifyEmployee("Product already stored, cannot be stored again.");
                     }
                     else
                     {
                         service.StoreProduct(Product);                       
-                        service.NotifyEmployee(MessageBox.Show("Stored " + Product.Quantity+" pieces of " + Product.ProductName + ", product with code: " + Product.ProductCode + "."));
-                        ProductList = service.GetAllProducts().ToList();                        
-                    }  
+                        service.NotifyEmployee("Successfully stored " + Product.Quantity+" pieces of " + Product.ProductName + ", product with code: " + Product.ProductCode + ".");                                               
+                    }
+                    ProductList = service.GetAllProducts().ToList();
                 }
             }
             catch (Exception ex)
@@ -119,7 +117,10 @@ namespace Zadatak_1.ViewModel
         /// <returns>true if possible</returns>
         public bool CanStoreProductExecute()
         {
-            return true;
+            if (Product == null)
+                return false;
+            else
+                return true;
         }
 
 
